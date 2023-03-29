@@ -1,0 +1,161 @@
+#include<iostream>
+#include<iomanip>
+const double pi = 3.1415926;
+using namespace std;
+class Point//坐标
+{
+protected:
+    double x, y;
+public:
+    Point(double a=0, double b=0):x(a),y(b){}
+    void SetPoint(double , double );
+    void Show();
+    double GetX();
+    double GetY();
+};
+void Point::SetPoint(double a, double b)
+{
+    x = a ;
+    y = b ;
+}
+void Point::Show()
+{
+    cout << x << " " << y << endl;
+}
+double Point::GetX()
+{
+    return x;
+}
+double Point::GetY()
+{
+    return y;
+}
+
+
+
+
+
+class Circle :public Point//圆
+{
+protected:
+    double R;
+public:
+    Circle(double a, double b, double c);
+    void SetCircle(Circle& c);
+    double Getr();
+    void Setr(double);
+    double Girth();
+    double Area();
+    void Show();
+};
+
+Circle::Circle(double a=0, double b=0, double c=0):Point(a,b),R(c){}
+void Circle::SetCircle(Circle& c)
+{
+    SetPoint(c.GetX(), c.GetY());
+}
+void Circle::Show()
+{
+    cout << GetX() <<"," << GetY() << endl;
+    cout <<R << endl;
+}
+void Circle::Setr(double c)
+{
+    R = c;
+}
+double Circle::Getr()
+{
+    return R;
+}
+double Circle::Girth()
+{
+    return  2 * pi * R;
+}
+double Circle::Area()
+{
+    return pi * R * R;
+}
+
+
+
+
+
+
+class Cylinder :public Circle//圆柱体
+{
+protected:
+    double h;
+public:
+    Cylinder(double a=0, double b=0, double c=0, double d=1);
+    void show();
+    void Seth(double d);
+    double Geth();
+    void SetCylinder(Circle& t,double d)
+    {
+        SetCircle(t);
+        h = d;
+    };
+    double Area();
+    double Volumn();
+};
+
+Cylinder::Cylinder(double a, double b, double c, double d):Circle(a,b,c)
+{
+    h = d;
+}
+
+
+
+void Cylinder::Seth(double d)
+{
+    h = d;
+}
+/*double Cylinder::Geth()
+{
+    return h;
+}
+*/
+
+void Cylinder::show()
+{
+    cout <<x<<y<< endl;
+    
+    cout << R << endl;
+    
+    cout << h << endl;
+}
+double Cylinder::Volumn()
+{
+    return Circle::Area() * h;
+}
+double Cylinder::Area()
+{
+    return 2 * pi* R * R + 2 * pi * R* h;
+}
+
+
+
+int  main()
+{
+
+    double  x, y;
+    cin >> x >> y;//若输入：10  20
+    Point  p1(x, y);
+    p1.SetPoint(x + 10, y + 5);
+    cout << fixed << setprecision(1);
+    p1.Show();//单独占一行输出：10,20
+
+
+    Circle  c1(p1.GetX(), p1.GetY(), 20);
+    c1.Show();//输出两行：圆心一行，半径一行
+    cout << "c1的周长是：" << c1.Girth() << endl;//一个数据一行
+    cout << "c1的面积是：" << c1.Area() << endl;//一个数据一行
+
+
+    Cylinder  cy1;
+    cy1.SetCylinder(c1, 10.5);
+    cy1.Show();//输出三行：圆心一行，半径一行，高一行
+    cout << "cy1的表面积是：" << cy1.Area() << endl;//一个数据一行
+    cout << "cy1的体积是：" << cy1.Volumn() << endl;//一个数据一行
+    return  0;
+}
